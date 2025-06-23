@@ -31,4 +31,9 @@ final class TabController extends AbstractController
     }
 
 
+    #[Route('/heritage', name: 'app_heritage')]
+    public function heritage(): Response
+    {
+        return $this->render('tab/heritage.html.twig');
+    }
 }

@@ -1,0 +1,21 @@
+{% extends 'pere/pere.html.twig' %}
+
+{% block title %} FILS {% endblock %}
+
+
+{% block body %}
+    {{ parent() }}
+    <h2>
+        Je suis le nouveau contenu
+    </h2>
+
+    {{ include('fragments/hello.html.twig',{
+        'name':'AFH',
+        'alertType': 'danger'
+    }) }}
+    {{ include('fragments/hello.html.twig',{
+        'name':'Sonia',
+        'alertType': 'success'
+    }) }}
+{% endblock %}
+
