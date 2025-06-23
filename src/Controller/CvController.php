@@ -9,7 +9,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CvController extends AbstractController
 {
-    #[Route('/cv/{name}/{firstname}/{age}/{section}', name: 'app_cv')]
+    #[Route(
+        '/cv/{name}/{firstname}/{local<fr|ar|en>}/{age<\d{1,2}>?24}/{section<[a-z]+>?AFH}',
+        name: 'app_cv',
+        //defaults: ["section" => "GL"]
+
+    )]
     public function index($name, $firstname, $age, $section, SessionInterface $session): Response
     {
         if($age < 65) {
