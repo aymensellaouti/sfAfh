@@ -36,4 +36,10 @@ final class TabController extends AbstractController
     {
         return $this->render('tab/heritage.html.twig');
     }
+
+    #[Route('/template', name: 'app_template')]
+    public function template(): Response
+    {
+        return $this->render('base.html.twig');
+    }
 }
