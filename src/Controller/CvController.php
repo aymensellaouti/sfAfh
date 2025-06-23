@@ -10,13 +10,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CvController extends AbstractController
 {
     #[Route(
-        '/cv/{name}/{firstname}/{local<fr|ar|en>}/{age<\d{1,2}>?24}/{section<[a-z]+>?AFH}',
+        '/cv/{name}/{firstname}/{local<fr|ar|en>}/{age<\d{1,2}>?24}/{section<[a-z]+>?AFH}/{path?}',
         name: 'app_cv',
         //defaults: ["section" => "GL"]
 
     )]
-    public function index($name, $firstname, $age, $section, SessionInterface $session): Response
+    public function index($name, $firstname, $age, $section,$path, SessionInterface $session): Response
     {
+        dump($path);
         if($age < 65) {
             $this->addFlash('success', 'Rak Mazelt Chabeb :D');
         }
@@ -27,6 +28,7 @@ final class CvController extends AbstractController
             'firstname' => $firstname,
             'age' => $age,
             'section' => $section,
+            'path' => $path,
         ]);
     }
 }

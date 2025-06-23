@@ -15,7 +15,7 @@
     </div>
 {% endfor %}
 <div class="example-wrapper">
-    <img src="{{ asset('assets/images/cv.png') }}" alt="CV" class="rounded-circle">
+    <img width="50" height="50" src="{{ asset('assets/images/'~path | defaultImage) }}" alt="CV" class="rounded-circle">
    {{ name | upper}} <br>
    {{ firstname | upper }} <br>
    {{ age }} <br>
