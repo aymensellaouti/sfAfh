@@ -8,6 +8,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class TabController extends AbstractController
 {
+    #[Route('/tab/users', name: 'app_users')]
+    public function users(): Response {
+        $users = [
+            ['firstname' => 'aymen', 'name' => 'sellaouti', 'age' => 39],
+            ['firstname' => 'skander', 'name' => 'sellaouti', 'age' => 3],
+            ['firstname' => 'souheib', 'name' => 'youssfi', 'age' => 59],
+        ];
+
+        return $this->render('tab/users.html.twig', ["users" => $users]);
+    }
     #[Route('/tab/{nb?5}', name: 'app_tab')]
     public function index($nb): Response
     {
@@ -20,12 +30,5 @@ final class TabController extends AbstractController
         ]);
     }
 
-    #[Route('/tab/users', name: 'app_users')]
-    public function users(): Response {
-        $users = [
-            ['firstname' => 'aymen', 'name' => 'sellaouti', 'age' => 39],
-            ['firstname' => 'skander', 'name' => 'sellaouti', 'age' => 3],
-            ['firstname' => 'souheib', 'name' => 'youssfi', 'age' => 59],
-        ];
-    }
+
 }
