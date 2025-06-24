@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Personnes{% endblock %}
+
+{% block body %}
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{ person.firstname }} {{ person.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{ person.age }}</h6>
+        <p class="card-text">{{person.cin}}</p>
+        <a href="{{ path('delete_person', {id: person.id}) }}">
+            <i class="fas fa-trash"></i>
+        </a>
+        <a href="{{ path('app_person') }}" class="card-link">All</a>
+    </div>
+</div>
+{% endblock %}
