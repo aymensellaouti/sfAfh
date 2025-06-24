@@ -19,6 +19,9 @@ class Dossier
     #[ORM\Column]
     private ?\DateTime $creationDate = null;
 
+    #[ORM\Column(length: 1)]
+    private ?string $status = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Dossier
     public function setCreationDate(\DateTime $creationDate): static
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

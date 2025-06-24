@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Dossier{% endblock %}
+
+{% block body %}
+ <table class="table">
+     <thead>
+        <th>Référence</th>
+        <th>Status</th>
+        <th>Date de création</th>
+     </thead>
+     <tbody>
+     {% for dossier in dossiers %}
+     <tr>
+         <td>{{ dossier.refrence }}</td>
+         <td>{{ dossier.status }}</td>
+         <td>{{ dossier.creationDate | date() }}</td>
+     </tr>
+     {% endfor %}
+     </tbody>
+ </table>
+{% endblock %}
