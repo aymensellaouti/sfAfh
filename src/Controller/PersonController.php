@@ -21,18 +21,24 @@ final class PersonController extends AbstractController
         $this->personRepository = $this->doctrine->getRepository(Person::class);
         $this->manager = $this->doctrine->getManager();
     }
-    #[Route('/', name: 'app_person')]
-    public function index(): Response
+    #[Route('/{page?1}/{nbre?10}', name: 'app_person')]
+    public function index($page, $nbre): Response
     {
-        $personnes = $this->personRepository->findAll();
+        $nbPersonne = $this->personRepository->count([]);
+        $nbrePage = ceil($nbPersonne / $nbre) ;
+        $personnes = $this->personRepository->findBy([], [],$nbre, ($page - 1 ) * $nbre);
+
         return $this->render('person/index.html.twig', [
             'persons' => $personnes,
+            'isPaginated' => true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
     #[Route('/detail/{id}', name: 'app_detail_person')]
-    public function detail($id): Response
+    public function detail(Person $person = null): Response
     {
-        $person = $this->personRepository->find($id);
         if (!$person)
             throw new NotFoundHttpException('Person not found');
 

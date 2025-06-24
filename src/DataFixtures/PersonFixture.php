@@ -13,9 +13,9 @@ class PersonFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         $chaines = "abcdefghijklmnopqrstuvwxyz ";
-        $fakerAr = Factory::create('ar_AR');
+        $fakerAr = Factory::create('ar_SA');
         $faker = Factory::create('fr_FR');
-        for($i=0; $i<10; $i++){
+        for($i=0; $i<100; $i++){
             $person = new Person();
             $person
                 ->setAge($faker->numberBetween(18, 60));
