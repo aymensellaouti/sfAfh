@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\CityRepository;
+use App\Trait\TimeStampTrait;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CityRepository::class)]
+#[ORM\Entity(repositoryClass: CityRepository::class),
+    ORM\HasLifecycleCallbacks()]
 class City
 {
+
+    use TimeStampTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

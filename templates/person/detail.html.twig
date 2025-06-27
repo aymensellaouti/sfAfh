@@ -9,6 +9,12 @@
         <h5 class="card-title">{{ person.firstname }} {{ person.name }}</h5>
         <h6 class="card-subtitle mb-2 text-body-secondary">{{ person.age }}</h6>
         <p class="card-text">{{person.cin}}</p>
+        <p class="card-text">{% if person.job %}{{person.job.designation}} {% endif %}</p>
+        <p class="card-text">
+            {% for hobby in person.hobbies %}
+               {{ hobby.designation}}
+            {% endfor %}
+        </p>
         <a href="{{ path('delete_person', {id: person.id}) }}">
             <i class="fas fa-trash"></i>
         </a>

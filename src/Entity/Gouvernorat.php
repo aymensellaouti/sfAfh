@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\GouvernoratRepository;
+use App\Trait\TimeStampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: GouvernoratRepository::class)]
+#[ORM\Entity(repositoryClass: GouvernoratRepository::class),
+    ORM\HasLifecycleCallbacks()]
 class Gouvernorat
 {
     #[ORM\Id]
@@ -15,13 +17,14 @@ class Gouvernorat
     #[ORM\Column]
     private ?int $id = null;
 
+    use TimeStampTrait;
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
     /**
      * @var Collection<int, City>
      */
-    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'gouvernorat', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'gouvernorat', orphanRemoval: true, cascade: ['persist'])]
     private Collection $cities;
 
     public function __construct()

@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\DossierRepository;
+use App\Trait\TimeStampTrait;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DossierRepository::class)]
+#[ORM\Entity(repositoryClass: DossierRepository::class),
+    ORM\HasLifecycleCallbacks()]
 class Dossier
 {
     #[ORM\Id]
@@ -13,6 +15,7 @@ class Dossier
     #[ORM\Column]
     private ?int $id = null;
 
+    use TimeStampTrait;
     #[ORM\Column(length: 12)]
     private ?string $refrence = null;
 

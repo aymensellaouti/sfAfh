@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\HobbyRepository;
+use App\Trait\TimeStampTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 ]
 class Hobby
 {
+    use TimeStampTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
