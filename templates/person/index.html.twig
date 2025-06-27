@@ -19,7 +19,7 @@
         {% for person in persons %}
             <tr>
                 <td>
-                    <img src="{{ asset('assets/images/'~person.path | defaultImage) }}"
+                    <img src="{{ asset('uploads/person/'~person.path | defaultImage) }}"
                          alt="Cv"
                          class="rounded-circle"
                          width="50"

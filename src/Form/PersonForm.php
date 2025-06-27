@@ -8,9 +8,11 @@ use App\Entity\Job;
 use App\Entity\Person;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class PersonForm extends AbstractType
 {
@@ -21,7 +23,23 @@ class PersonForm extends AbstractType
             ->add('firstname')
             ->add('age')
             ->add('cin')
-            ->add('path')
+            ->add('file',
+                FileType::class, [
+                    'mapped' => false,
+                    // make it optional so you don't have to re-upload the PDF file
+                    // every time you edit the Product details
+                    'required' => false,
+
+                    // unmapped fields can't define their validation using attributes
+                    // in the associated entity, so you can use the PHP constraint classes
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '1024k',
+                            'extensions' => ['jpg','jpeg','png'],
+                            'extensionsMessage' => "Please upload a valid Image file('jpg','jpeg','png')",
+                        ])
+                    ],
+                ])
 //            ->add('dossier', EntityType::class, [
 //                'class' => Dossier::class,
 //                'choice_label' => 'id',
@@ -34,8 +52,7 @@ class PersonForm extends AbstractType
                 'choice_label' => 'designation',
                 'multiple' => true,
             ])
-            ->add('ajouter', SubmitType::class)
-        ;
+            ->add('ajouter', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

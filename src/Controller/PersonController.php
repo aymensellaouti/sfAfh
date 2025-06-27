@@ -8,31 +8,63 @@ use App\Form\PersonForm;
 use App\Repository\PersonRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('person')]
 final class PersonController extends AbstractController
 {
     protected  PersonRepository $personRepository;
-    public function __construct(protected ManagerRegistry $doctrine)
+    public function __construct(
+        protected ManagerRegistry $doctrine,
+        private SluggerInterface $slugger,
+    )
     {
         $this->personRepository = $this->doctrine->getRepository(Person::class);
         $this->manager = $this->doctrine->getManager();
     }
 
     #[Route('/edit/{id?0}', name: 'person.edit')]
-    public function add(Request $request, Person $person = null): Response
+    public function edit(Request $request, Person $person = null): Response
     {
         if(!$person)
             $person = new Person();
-        $form = $this->createForm(PersonForm::class, $person);
+        $form = $this->createForm(PersonForm::class, $person,
+//            [
+//            'action' => $this->generateUrl('person_add'),
+//        ]
+        );
 //        $form->remove('dossier');
         $form->handleRequest($request);
         // Itha el formulaire soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Bech ngéri l'upload
+            $file = $form->get('file')->getData();
+            if ($file) {
+                // Njib el path
+                $folder = $this->getParameter('person_directory');
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $folder,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $person->setPath($newFilename);
+            }
+
             // Bech nzid fel database
             $this->manager->persist($person);
             $this->manager->flush();
