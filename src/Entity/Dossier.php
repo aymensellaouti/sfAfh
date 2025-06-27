@@ -22,6 +22,18 @@ class Dossier
     #[ORM\Column(length: 1)]
     private ?string $status = null;
 
+    #[ORM\OneToOne(inversedBy: 'dossier', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Person $Person = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?City $city = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Gouvernorat $gouvernorat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +71,42 @@ class Dossier
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPerson(): ?Person
+    {
+        return $this->Person;
+    }
+
+    public function setPerson(Person $Person): static
+    {
+        $this->Person = $Person;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getGouvernorat(): ?Gouvernorat
+    {
+        return $this->gouvernorat;
+    }
+
+    public function setGouvernorat(?Gouvernorat $gouvernorat): static
+    {
+        $this->gouvernorat = $gouvernorat;
 
         return $this;
     }

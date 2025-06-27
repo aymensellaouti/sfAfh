@@ -29,6 +29,9 @@ class Person
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $path = null;
 
+    #[ORM\OneToOne(mappedBy: 'Person', cascade: ['persist', 'remove'])]
+    private ?Dossier $dossier = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,23 @@ class Person
     public function setPath(?string $path): static
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getDossier(): ?Dossier
+    {
+        return $this->dossier;
+    }
+
+    public function setDossier(Dossier $dossier): static
+    {
+        // set the owning side of the relation if necessary
+        if ($dossier->getPerson() !== $this) {
+            $dossier->setPerson($this);
+        }
+
+        $this->dossier = $dossier;
 
         return $this;
     }
