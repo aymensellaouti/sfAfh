@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -12,21 +13,14 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class FirstController extends AbstractController
 {
+    public function __construct(private MailerService $mailerService)
+    {
+
+    }
     #[Route('/email/test')]
     public function sendEmail(MailerInterface $mailer): Response
     {
-        $email = (new Email())
-            ->from('aymen.noreply.please@gmail.com')
-            ->to('aymen.sellaouti@gmail.com')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
-
-        $mailer->send($email);
+        $this->mailerService->sendMAil();
         return  new Response('<body><html><h1>Email sent</h1></body></html>');
         // ...
     }
